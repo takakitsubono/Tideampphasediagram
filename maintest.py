@@ -1,4 +1,4 @@
-# Tsubono wrote on Nov 1, 2021
+# wrote 20211111
 from ampang import AmpPhsDiagram
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,9 +22,10 @@ arng=np.array((smin-0.10,smax+0.1))
 prng=np.array((tmin-5.00,tmax+5.0))
 athc=np.array((smin,smax,swdt))
 pthc=np.array((tmin,tmax,twdt))
-    
+
+refstd=1.+0.0j
 fig = plt.figure(figsize=(8,6))
-dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb)
+dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb,rd_fmt="%.2f")
 contours=dia.add_contours(levs=[0.2,0.4,0.6],colors='0.5')
 plt.clabel(contours, inline=1, fontsize=10,fmt="%.1f")
 plt.scatter(1,0,marker='*',s=70, label='refference')
@@ -49,6 +50,7 @@ athc=np.array((smin,smax,swdt))
 pthc=np.array((tmin,tmax,twdt))
     
 fig = plt.figure(figsize=(8,6))
+#dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb,rd_fmt="%.1f")
 dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb)
 contours=dia.add_contours(levs=[2.5,5.0,7.5],colors='0.5')
 plt.clabel(contours, inline=1, fontsize=10,fmt="%.1f")
@@ -104,7 +106,7 @@ athc=np.array((smin,smax,swdt))
 pthc=np.array((tmin,tmax,twdt))
 refft=1.0
 fig = plt.figure(figsize=(8,6))
-dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb)
+dia = AmpPhsDiagram(reff=refft,fig=fig,amprange=arng,ampthck=athc,phsrange=prng,phsthck=pthc,amptitle=aaa,phstitle=bbb,rd_fmt="%.1f")
 contours=dia.add_contours(levs=[0.2,0.4,0.6],colors='0.5')
 plt.clabel(contours, inline=1, fontsize=10,fmt="%.1f")
 plt.scatter(ahinv[100].real,-ahinv[100].imag,label='A')

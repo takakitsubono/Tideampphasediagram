@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # Copyright: This document has been placed in the public domain.
 """
-Yannick Copin's pythoncode for Taylor diagram (Taylor, 2001) was changed to tidal amplitude & phase diagram by Takai Tsubono (2021/11/1)
+Yannick Copin's pythoncode for Taylor diagram (Taylor, 2001) changed to tidal amplitude & phase diagram by Takai Tsubono (2021/11/11)
 Note: If you have found these software useful for your research, I would
 appreciate an acknowledgment.
 """
 __version__ = "modified from Time-stamp: <2018-12-06 11:43:41 ycopin>"
-__author__ = " T. Tsubono modified from Yannick Copin's code "
+__author__ = "modified from Yannick Copin's code "
 import numpy as np
 import matplotlib.pyplot as plt
 class AmpPhsDiagram(object):
@@ -14,7 +14,7 @@ class AmpPhsDiagram(object):
 #    Plot model constants of constituents and correlation to reference (data)
 #    sample in a single-quadrant polar plot, r=amplitude and
 #    theta= phaselag          .  "
-    def __init__(self, reff=1.0, fig=None, rect=111, label='_', amprange=[0, 1.5],ampthck=[0,1.5,0.25],phsrange=[-30,30],phsthck=[-30,30,15],amptitle='amplitude',phstitle='phase lag'):
+    def __init__(self, reff=1.0, fig=None, rect=111, label='_', amprange=[0, 1.5],ampthck=[0,1.5,0.25],phsrange=[-30,30],phsthck=[-30,30,15],amptitle='amplitude',phstitle='phase lag',rd_fmt="%.1f"):
         """Set up amplitude and phase reffered to Taylor diagram axes, i.e. polar
         plot, using `mpl_toolkits.axisartist.floating_axes`.
         Parameters:
@@ -31,18 +31,25 @@ class AmpPhsDiagram(object):
         self.reff = reff            # Reference standard deviation
         self.amprange = amprange    
         self.phsrange = phsrange    
-        idv = np.int( ( ampthck[1] - ampthck[0] ) / ampthck[2] )+1
-        jdv = np.int( ( phsthck[1] - phsthck[0] ) / phsthck[2] )+1
+        idv = np.int( ( ampthck[1]+0.0000001 - ampthck[0] ) / ampthck[2] )+1
+        jdv = np.int( ( phsthck[1]+0.0000001 - phsthck[0] ) / phsthck[2] )+1
 
         tr = PolarAxes.PolarTransform()
         degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
         angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
         grid_locator1 = GF.FixedLocator([v for v, s in angle_ticks])
+        angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
         tick_formatter1 = GF.DictFormatter(dict(angle_ticks))
 
-        STDgrid = np.arange(ampthck[0],ampthck[1]+0.00001,ampthck[2])
-        tick_formatter2 = GF.DictFormatter(dict(zip(STDgrid,map(str,STDgrid))))
+#       STDgrid = np.round(np.linspace(ampthck[0],ampthck[1]+0.0000,idv),1)
+#       STDgrid = np.arange(ampthck[0],ampthck[1]+0.0000,ampthck[2])
+        STDgrid = np.round(np.linspace(ampthck[0],ampthck[1]+0.0001,idv),3)
         grid_locator2 = GF.FixedLocator(STDgrid)
+#       radial_func  = lambda d: (d, "%.1f"%(d))
+        radial_func  = lambda d: (d, rd_fmt%(d))
+        radial_ticks = map(radial_func, STDgrid)
+        tick_formatter2 = GF.DictFormatter(dict(radial_ticks))
+#       tick_formatter2 = GF.DictFormatter(dict(zip(STDgrid,map(str,STDgrid))))
 
         phspi=phsrange/180*np.pi
         gh = FA.GridHelperCurveLinear(tr,
@@ -76,7 +83,13 @@ class AmpPhsDiagram(object):
         rs,ts=np.meshgrid( np.linspace(self.amprange[0],self.amprange[1],num=100), np.linspace(piphi[0],piphi[1],num=100) )
         rms = np.sqrt( ( self.reff)**2 + rs**2 -2*(self.reff)*rs*np.cos(ts))
         contours = plt.contour(rs*np.cos(ts),rs*np.sin(ts),rms,levels=levs,**kwargs)
-        
+        return contours
+    def bdd_contours(self, levs=[0.1,0.2,0.3],  **kwargs):
+        piphi=np.pi/180.*self.phsrange
+        rs,ts=np.meshgrid( np.linspace(self.amprange[0],self.amprange[1],num=100), np.linspace(piphi[0],piphi[1],num=100) )
+        rms = np.sqrt( ( self.reff)**2 + rs**2 -2*(self.reff)*rs*np.cos(ts))
+#       rms = np.sqrt( (rs*np.cos(ts)-self.reff.real)**2+ (rs*np.sin(ts)-self.reff.imag) **2     )
+        contours = plt.contour(rs*np.cos(ts),rs*np.sin(ts),rms,levels=levs,**kwargs)
         return contours
 
 if __name__=='__main__':

@@ -36,10 +36,13 @@ class AmpPhsDiagram(object):
 
         tr = PolarAxes.PolarTransform()
         degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
-        angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
-        grid_locator1 = GF.FixedLocator([v for v, s in angle_ticks])
-        angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
-        tick_formatter1 = GF.DictFormatter(dict(angle_ticks))
+#       angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
+#       grid_locator1 = GF.FixedLocator([v for v, s in angle_ticks])
+        angle_ticks = dict(map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv)))
+        grid_locator1 = GF.FixedLocator( angle_ticks.keys() )
+        tick_formatter1 = GF.DictFormatter(angle_ticks)
+#       angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
+#       tick_formatter1 = GF.DictFormatter(dict(angle_ticks))
 
 #       STDgrid = np.round(np.linspace(ampthck[0],ampthck[1]+0.0000,idv),1)
 #       STDgrid = np.arange(ampthck[0],ampthck[1]+0.0000,ampthck[2])
@@ -47,8 +50,8 @@ class AmpPhsDiagram(object):
         grid_locator2 = GF.FixedLocator(STDgrid)
 #       radial_func  = lambda d: (d, "%.1f"%(d))
         radial_func  = lambda d: (d, rd_fmt%(d))
-        radial_ticks = map(radial_func, STDgrid)
-        tick_formatter2 = GF.DictFormatter(dict(radial_ticks))
+        radial_ticks = dict(map(radial_func, STDgrid))
+        tick_formatter2 = GF.DictFormatter(radial_ticks)
 #       tick_formatter2 = GF.DictFormatter(dict(zip(STDgrid,map(str,STDgrid))))
 
         phspi=phsrange/180*np.pi

@@ -40,7 +40,7 @@ swdt=2.5
 tmin=-40.
 tmax=20.
 twdt=10.
-aaa='ratio of magnitude(M2)(cal/obs)'
+aaa='M2_magnitude'
 bbb='phase lag'
 refft=np.abs(obs[3])
     

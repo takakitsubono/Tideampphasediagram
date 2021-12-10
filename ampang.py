@@ -35,7 +35,8 @@ class AmpPhsDiagram(object):
         jdv = np.int( ( phsthck[1]+0.0000001 - phsthck[0] ) / phsthck[2] )+1
 
         tr = PolarAxes.PolarTransform()
-        degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
+#       degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
+        degree_ticks = lambda d: (d*np.pi/180, "%d$^\degree$"%(d))
 #       angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
 #       grid_locator1 = GF.FixedLocator([v for v, s in angle_ticks])
         angle_ticks = dict(map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv)))

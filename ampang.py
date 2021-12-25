@@ -4,6 +4,10 @@
 Yannick Copin's pythoncode for Taylor diagram (Taylor, 2001) changed to tidal amplitude & phase diagram by Takai Tsubono (2021/11/11)
 Note: If you have found these software useful for your research, I would
 appreciate an acknowledgment.
+
+Tsubono, T., 2022. Diagram statistically displaying model performance for tides or quasi-periodic oscillations, Deep Sea Research I, Vol. 180, 103686,
+https://www.sciencedirect.com/science/article/pii/S0967063721002235?via%3Dihub 
+
 """
 __version__ = "modified from Time-stamp: <2018-12-06 11:43:41 ycopin>"
 __author__ = "modified from Yannick Copin's code "
@@ -35,8 +39,7 @@ class AmpPhsDiagram(object):
         jdv = np.int( ( phsthck[1]+0.0000001 - phsthck[0] ) / phsthck[2] )+1
 
         tr = PolarAxes.PolarTransform()
-#       degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
-        degree_ticks = lambda d: (d*np.pi/180, "%d$^\degree$"%(d))
+        degree_ticks = lambda d: (d*np.pi/180, "%d$^\\circ$"%(d))
 #       angle_ticks = map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv))
 #       grid_locator1 = GF.FixedLocator([v for v, s in angle_ticks])
         angle_ticks = dict(map(degree_ticks, np.linspace(phsthck[0],phsthck[1],jdv)))

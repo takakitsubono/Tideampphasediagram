@@ -1,4 +1,8 @@
 # wrote 20211111
+# change 
+# Tsubono, T., 2022. Diagram statistically displaying model performance for tides or quasi-periodic oscillations, Deep Sea Research I, Vol. 180, 103686,
+#https://www.sciencedirect.com/science/article/pii/S0967063721002235?via%3Dihub 
+
 from ampang import AmpPhsDiagram
 import numpy as np
 import matplotlib.pyplot as plt
